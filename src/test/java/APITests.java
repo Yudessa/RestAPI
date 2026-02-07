@@ -12,16 +12,19 @@ public class APITests {
     @BeforeEach
     public void setup() {
         RestAssured.baseURI = "https://petstore.swagger.io/v2/";
+        given()
+                .when()
+                .delete(baseURI + "pet/{id}", 2342325);
     }
 
     @Test
-    public void petNotFoundTest_BDD() {
+    public void petNotFoundTestBDD() {
         given().when()
                 .get(baseURI + "pet/{id}", unxeistingPetId)
                 .then()
                 .statusCode(404)
                 .statusLine("HTTP/1.1 404 Not Found")
-                .body("message", equalTo("Pet not found"))
-                .body("type", equalTo("error"));
+                .body("message", equalTo("Pet not found"),
+                        "type", equalTo("error"));
     }
 }
